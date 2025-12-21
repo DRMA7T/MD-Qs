@@ -1,22 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Chapter 1 Quiz</title>
+  <meta charset="UTF-8">
+  <title>Chapter 1 MCQs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .question {
+      margin-bottom: 30px;
+    }
+
+    .option {
+      display: block;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .option.correct {
+      background-color: #c8f7c5;
+      border-color: green;
+    }
+
+    .option.wrong {
+      background-color: #f7c5c5;
+      border-color: red;
+    }
+
+    .option.disabled {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    #score {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>What is 2 + 2?</h2>
+<h1>Chapter 1 MCQs</h1>
 
-<button onclick="check(true)">4</button>
-<button onclick="check(false)">3</button>
+<div id="score">Score: 0</div>
 
-<p id="result"></p>
+<div class="question">
+  <h3>1. What is 2 + 2?</h3>
+
+  <div class="option" onclick="checkAnswer(this, true)">4</div>
+  <div class="option" onclick="checkAnswer(this, false)">3</div>
+  <div class="option" onclick="checkAnswer(this, false)">5</div>
+  <div class="option" onclick="checkAnswer(this, false)">1</div>
+</div>
+
+<div class="question">
+  <h3>2. Capital of France?</h3>
+
+  <div class="option" onclick="checkAnswer(this, false)">Berlin</div>
+  <div class="option" onclick="checkAnswer(this, true)">Paris</div>
+  <div class="option" onclick="checkAnswer(this, false)">Madrid</div>
+  <div class="option" onclick="checkAnswer(this, false)">Rome</div>
+</div>
 
 <script>
-function check(isCorrect) {
-  document.getElementById("result").innerText =
-    isCorrect ? "✅ Correct!" : "❌ Wrong!";
-}
+  let score = 0;
+
+  function checkAnswer(selectedOption, isCorrect) {
+    const options = selectedOption.parentElement.querySelectorAll('.option');
+
+    // Disable all options
+    options.forEach(option => {
+      option.classList.add('disabled');
+    });
+
+    if (isCorrect) {
+      selectedOption.classList.add('correct');
+      score++;
+    } else {
+      selectedOption.classList.add('wrong');
+
+      // Highlight the correct one
+      options.forEach(option => {
+        if (option.getAttribute("onclick").includes("true")) {
+          option.classList.add('correct');
+        }
+      });
+    }
+
+    document.getElementById("score").innerText = "Score: " + score;
+  }
 </script>
 
 </body>
