@@ -1,14 +1,181 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>My Quiz Website</title>
+  <meta charset="UTF-8">
+  <title>MD Qs | Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .menu {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    details {
+      background: #ffffff;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+      padding: 5px;
+    }
+
+    details details {
+      margin-left: 20px;
+      margin-top: 8px;
+      background: #f1f2f6;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 6px 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: #2f3542;
+    }
+
+    a:hover {
+      color: #3742fa;
+    }
+  </style>
 </head>
 <body>
 
-<h1>Choose a Chapter</h1>
+<h1>MD Qs: Systems </h1>
 
-<button onclick="location.href='chapter1.html'">Chapter 1</button>
-<button onclick="location.href='chapter2.html'">Chapter 2</button>
+<div class="menu">
+
+  <!-- Nervous System -->
+  <details open>
+    <summary>Nervous System</summary>
+
+    <!-- Anatomy -->
+    <details>
+      <summary>Anatomy & Histology & Embryology (19)</summary>
+      <ul>
+        <!-- You can later replace # with real links -->
+        <li><a href="#">Lecture 1</a></li>
+        <li><a href="#">Lecture 2</a></li>
+        <li><a href="#">Lecture 3</a></li>
+        <li><a href="#">Lecture 4</a></li>
+        <li><a href="#">Lecture 5</a></li>
+        <!-- ... up to Lecture 19 -->
+      </ul>
+    </details>
+
+    <!-- Physiology -->
+    <details>
+      <summary>Physiology (11)</summary>
+      <ul>
+        <li><a href="#">Lecture 1</a></li>
+        <li><a href="#">Lecture 2</a></li>
+        <li><a href="#">Lecture 3</a></li>
+        <!-- ... up to Lecture 11 -->
+      </ul>
+    </details>
+
+    <!-- Biochemistry (1 lecture → no dropdown) -->
+    <ul>
+      <li>
+        <a href="#">Biochemistry (1)</a>
+      </li>
+    </ul>
+
+    <!-- Pharmacology -->
+    <details>
+      <summary>Pharmacology (10)</summary>
+      <ul>
+        <li><a href="#">Lecture 1</a></li>
+        <li><a href="#">Lecture 2</a></li>
+        <!-- ... -->
+      </ul>
+    </details>
+
+    <!-- Pathology -->
+    <details>
+      <summary>Pathology (6)</summary>
+      <ul>
+        <li><a href="#">Lecture 1</a></li>
+        <li><a href="#">Lecture 2</a></li>
+        <!-- ... -->
+      </ul>
+    </details>
+
+    <!-- Microbiology -->
+    <details>
+      <summary>Microbiology (5)</summary>
+      <ul>
+        <li><a href="#">Lecture 1</a></li>
+        <li><a href="#">Lecture 2</a></li>
+        <!-- ... -->
+      </ul>
+    </details>
+  </details>
+
+  <!-- Other Systems (structure ready, lectures later) -->
+  <details>
+    <summary>Cardiovascular System</summary>
+    <ul>
+      <li>Anatomy & Histology & Embryology</li>
+      <li>Physiology</li>
+      <li>Biochemistry</li>
+      <li>Pharmacology</li>
+      <li>Pathology</li>
+      <li>Microbiology</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Gastrointestinal System</summary>
+    <ul>
+      <li>Anatomy & Histology & Embryology</li>
+      <li>Physiology</li>
+      <li>Biochemistry</li>
+      <li>Pharmacology</li>
+      <li>Pathology</li>
+      <li>Microbiology</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Endocrine System</summary>
+    <ul>
+      <li>Anatomy & Histology & Embryology</li>
+      <li>Physiology</li>
+      <li>Biochemistry</li>
+      <li>Pharmacology</li>
+      <li>Pathology</li>
+      <li>Microbiology</li>
+    </ul>
+  </details>
+
+</div>
 
 </body>
 </html>
+
+
+    <!-- #replace the "#" with hyperlink (nervous-system/anatomy/lec1.html) -->
+
