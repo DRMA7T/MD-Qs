@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Chapter 1 Quiz</title>
+</head>
+<body>
+
+<h2>What is 2 + 2?</h2>
+
+<button onclick="check(true)">4</button>
+<button onclick="check(false)">3</button>
+
+<p id="result"></p>
+
+<script>
+function check(isCorrect) {
+  document.getElementById("result").innerText =
+    isCorrect ? "✅ Correct!" : "❌ Wrong!";
+}
+</script>
+
+</body>
+</html>
