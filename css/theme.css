@@ -12,6 +12,7 @@
   --link-color: #4da3ff;
 }
 
+/* ===== GLOBAL STYLES ===== */
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
