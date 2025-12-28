@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Currency Calculator</title>
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2556978997655102"
+     crossorigin="anonymous"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    padding: 20px;
+}
+.container {
+    max-width: 420px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+.row {
+    display: flex;
+    margin-bottom: 8px;
+}
+label {
+    width: 60px;
+    font-weight: bold;
+}
+input {
+    flex: 1;
+    padding: 6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>🌍 Currency Calculator</h2>
+    <div id="fields"></div>
+</div>
+
+<script>
+const currencies = [
+    "USD","EUR","CAD","EGP",
+    "SAR","AED","KWD","QAR","BHD","OMR",
+    "TRY","JOD"
+];
+
+const fields = document.getElementById("fields");
+let updating = false;
+
+// Create inputs
+currencies.forEach(c => {
+    const row = document.createElement("div");
+    row.className = "row";
+
+    const label = document.createElement("label");
+    label.textContent = c;
+
+    const input = document.createElement("input");
+    input.type = "number";
+    input.step = "any";
+    input.id = c;
+
+    input.addEventListener("input", () => convert(c));
+
+    row.appendChild(label);
+    row.appendChild(input);
+    fields.appendChild(row);
+});
+
+// Conversion
+async function convert(base) {
+    if (updating) return;
+
+    const value = parseFloat(document.getElementById(base).value);
+    if (isNaN(value)) return;
+
+    updating = true;
+
+    const res = await fetch(`https://open.er-api.com/v6/latest/${base}`);
+    const data = await res.json();
+
+    currencies.forEach(c => {
+        if (c !== base && data.rates[c]) {
+            document.getElementById(c).value =
+                (value * data.rates[c]).toFixed(4);
+        }
+    });
+
+    updating = false;
+}
+</script>
+
+</body>
+</html>
