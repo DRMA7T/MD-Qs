@@ -23,6 +23,12 @@ function selectOption(option, selectedNumber) {
     // Show explanation
     const explanation = question.querySelector(".explanation");
     if (explanation) explanation.style.display = "block";
+
+    // Check how many answered qsuestions
+    const totalQuestions = document.querySelectorAll(".question").length;
+    if (answeredQuestions === totalQuestions) {
+        showScore(totalQuestions);
+    }
 }
 
 function showScore(totalQuestions) {
