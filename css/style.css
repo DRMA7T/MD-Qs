@@ -75,3 +75,35 @@ body {
     border-radius: 6px;
     font-size: 14px;
 }
+
+.image-option {
+    padding: 10px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.image-option img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+
+.image-option:hover {
+    border-color: #ccc;
+}
+
+.image-option.selected {
+    border-color: #007bff;
+    background-color: #f0f6ff;
+}
+
+.image-option.correct {
+    border-color: #28a745;
+}
+
+.image-option.wrong {
+    border-color: #dc3545;
+}
