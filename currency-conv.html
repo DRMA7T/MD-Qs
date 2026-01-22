@@ -2,101 +2,560 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Currency Converter</title>
-
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2556978997655102"
-     crossorigin="anonymous"></script>
-
+<title>Currency Calculator</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
+:root {
+    --primary: #4f46e5;
+    --primary-light: #818cf8;
+    --primary-dark: #3730a3;
+    --secondary: #7c3aed;
+    --accent: #ec4899;
+    --success: #10b981;
+    --light: #f8fafc;
+    --dark: #1e293b;
+    --gray: #64748b;
+    --light-gray: #e2e8f0;
+    --border-radius: 16px;
+    --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    --input-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     padding: 20px;
-}
-.container {
-    max-width: 420px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-}
-.row {
+    min-height: 100vh;
     display: flex;
-    margin-bottom: 8px;
+    align-items: center;
+    justify-content: center;
 }
-label {
-    width: 60px;
-    font-weight: bold;
+
+.container {
+    max-width: 520px;
+    width: 100%;
+    margin: auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 35px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
-input {
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    z-index: 1;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+h2 {
+    color: var(--dark);
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+h2 i {
+    color: var(--primary);
+    font-size: 2.5rem;
+}
+
+.lang-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 auto;
+    padding: 12px 28px;
+    border-radius: 50px;
+    border: 2px solid var(--primary);
+    background: white;
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    font-size: 1rem;
+    box-shadow: var(--input-shadow);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.lang-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+.lang-btn i {
+    font-size: 1.2rem;
+}
+
+.currency-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.currency-row {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid transparent;
+    transition: var(--transition);
+    position: relative;
+}
+
+.currency-row:hover {
+    border-color: var(--primary-light);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(79, 70, 229, 0.1);
+}
+
+.currency-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
     flex: 1;
-    padding: 6px;
+}
+
+.currency-flag {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.currency-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.currency-code {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.currency-name {
+    color: var(--gray);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.currency-symbol {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+input {
+    width: 160px;
+    padding: 14px 18px;
+    border-radius: 10px;
+    border: 2px solid #e2e8f0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    transition: var(--transition);
+    background: var(--light);
+    color: var(--dark);
+    box-shadow: var(--input-shadow);
+    font-family: 'Courier New', monospace;
+    text-align: right;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
+    background: white;
+}
+
+input::placeholder {
+    color: #94a3b8;
+    opacity: 0.7;
+}
+
+/* Currency-specific flag colors */
+.flag-usd { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; }
+.flag-eur { background: linear-gradient(135deg, #003399, #ffcc00); color: #ffcc00; }
+.flag-cad { background: linear-gradient(135deg, #ff0000, #ffffff); color: #ff0000; }
+.flag-egp { background: linear-gradient(135deg, #ce1126, #ffffff, #000000); color: #000; }
+.flag-sar { background: linear-gradient(135deg, #006c35, #ffffff); color: #006c35; }
+.flag-aed { background: linear-gradient(135deg, #ff0000, #000000, #009900, #ffffff); color: #ff0000; }
+.flag-kwd { background: linear-gradient(135deg, #007a3d, #ffffff, #ce1126); color: #000; }
+.flag-qar { background: linear-gradient(135deg, #8d1b3d, #ffffff); color: #8d1b3d; }
+.flag-bhd { background: linear-gradient(135deg, #ce1126, #ffffff); color: #000; }
+.flag-omr { background: linear-gradient(135deg, #008000, #ffffff, #ff0000); color: #000; }
+.flag-try { background: linear-gradient(135deg, #e30a17, #ffffff); color: #e30a17; }
+.flag-jod { background: linear-gradient(135deg, #000000, #ffffff, #007a3d, #ce1126); color: #000; }
+.flag-syp { background: linear-gradient(135deg, #007a3d, #ffffff, #000000, #ce1126); color: #000; }
+
+
+
+/* Special styling for SYP currencies */
+.currency-row[id*="SYP"] {
+    background: linear-gradient(135deg, rgba(0, 122, 61, 0.05), rgba(0, 122, 61, 0.1));
+    border-left: 4px solid #007a3d;
+}
+
+.rtl .currency-row[id*="SYP"] {
+    border-left: none;
+    border-right: 4px solid #007a3d;
+}
+
+/* Loading state */
+.updating .currency-row {
+    opacity: 0.8;
+}
+
+.updating input {
+    background-color: #f1f5f9;
+}
+
+/* Animation for updates */
+@keyframes highlight {
+    0% { background-color: rgba(16, 185, 129, 0.1); }
+    100% { background-color: transparent; }
+}
+
+input:focus {
+    animation: highlight 0.5s ease;
+}
+
+/* RTL adjustments */
+.rtl {
+    direction: rtl;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+}
+
+.rtl .currency-info {
+    text-align: right;
+}
+
+.rtl input {
+    text-align: left;
+}
+
+.rtl .currency-row:hover {
+    transform: translateY(-2px) translateX(-2px);
+}
+
+/* Footer styling */
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--light-gray);
+    color: var(--gray);
+    font-size: 0.85rem;
+}
+
+.footer i {
+    color: var(--primary);
+    margin: 0 5px;
+}
+
+/* Responsive design */
+@media (max-width: 560px) {
+    .container {
+        padding: 25px 20px;
+        margin: 10px;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    h2 i {
+        font-size: 2rem;
+    }
+    
+    .currency-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        padding: 20px;
+    }
+    
+    .currency-info {
+        justify-content: flex-start;
+    }
+    
+    input {
+        width: 100%;
+        text-align: left;
+    }
+    
+    .rtl input {
+        text-align: right;
+    }
+    
+    .lang-btn {
+        padding: 10px 22px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Currency value animation */
+@keyframes valueUpdate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+input:not(:placeholder-shown) {
+    animation: valueUpdate 0.3s ease;
+}
+
+/* Decorative elements */
+.decorative-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1));
+    z-index: 0;
+}
+
+.circle-1 {
+    width: 80px;
+    height: 80px;
+    top: -40px;
+    right: -40px;
+}
+
+.circle-2 {
+    width: 60px;
+    height: 60px;
+    bottom: -30px;
+    left: -30px;
 }
 </style>
 </head>
 
 <body>
-     
-<div class="container">
 
-<a href="index.html" class="home-btn">⬅ Home</a>
 
-<div class="container">
-    <h2>🌍 Currency Converter</h2>
-    <div id="fields"></div>
+
+    
+<div class="container" id="app">
+    <a href="index.html" class="home-btn">⬅ Home</a> <!-- Home button -->
+    <div class="decorative-circle circle-1"></div>
+    <div class="decorative-circle circle-2"></div>
+    
+    <div class="header">
+        <h2><i class="fas fa-globe-americas"></i> <span id="title">Currency Calculator</span></h2>
+        <button class="lang-btn" onclick="toggleLang()">
+            <i class="fas fa-language"></i>
+            <span class="lang-text">AR / EN</span>
+        </button>
+    </div>
+    
+    <div class="currency-list" id="fields"></div>
+    
+    <div class="footer">
+        <p><i class="fas fa-sync-alt"></i> Real-time Exchange Rates <i class="fas fa-chart-line"></i></p>
+    </div>
 </div>
 
 <script>
+let lang = "en";
+let updating = false;
+
+const labels = {
+    en: {
+        USD: {name: "US Dollar", symbol: "$"},
+        EUR: {name: "Euro", symbol: "€"},
+        CAD: {name: "Canadian Dollar", symbol: "$"},
+        EGP: {name: "Egyptian Pound", symbol: "£"},
+        SAR: {name: "Saudi Riyal", symbol: "﷼"},
+        AED: {name: "UAE Dirham", symbol: "د.إ"},
+        KWD: {name: "Kuwaiti Dinar", symbol: "د.ك"},
+        QAR: {name: "Qatari Riyal", symbol: "﷼"},
+        BHD: {name: "Bahraini Dinar", symbol: ".د.ب"},
+        OMR: {name: "Omani Rial", symbol: "﷼"},
+        TRY: {name: "Turkish Lira", symbol: "₺"},
+        JOD: {name: "Jordanian Dinar", symbol: "د.أ"},
+        SYP_NEW: {name: "Syrian Pound (New)", symbol: "£"},
+        SYP_OLD: {name: "Syrian Pound (Old)", symbol: "£"}
+    },
+    ar: {
+        USD: {name: "الدولار الأمريكي", symbol: "$"},
+        EUR: {name: "يورو", symbol: "€"},
+        CAD: {name: "دولار كندي", symbol: "$"},
+        EGP: {name: "جنيه مصري", symbol: "£"},
+        SAR: {name: "ريال سعودي", symbol: "﷼"},
+        AED: {name: "درهم إماراتي", symbol: "د.إ"},
+        KWD: {name: "دينار كويتي", symbol: "د.ك"},
+        QAR: {name: "ريال قطري", symbol: "﷼"},
+        BHD: {name: "دينار بحريني", symbol: ".د.ب"},
+        OMR: {name: "ريال عماني", symbol: "﷼"},
+        TRY: {name: "ليرة تركية", symbol: "₺"},
+        JOD: {name: "دينار أردني", symbol: "د.أ"},
+        SYP_NEW: {name: "ليرة سورية (جديدة)", symbol: "£"},
+        SYP_OLD: {name: "ليرة سورية (قديمة)", symbol: "£"}
+    }
+};
+
 const currencies = [
     "USD","EUR","CAD","EGP",
     "SAR","AED","KWD","QAR","BHD","OMR",
-    "TRY","JOD"
+    "TRY","JOD","SYP_NEW","SYP_OLD"
 ];
 
 const fields = document.getElementById("fields");
-let updating = false;
 
-// Create inputs
-currencies.forEach(c => {
-    const row = document.createElement("div");
-    row.className = "row";
+function buildFields() {
+    fields.innerHTML = "";
+    currencies.forEach(c => {
+        const row = document.createElement("div");
+        row.className = "currency-row";
+        row.id = `row-${c}`;
+        
+        const infoDiv = document.createElement("div");
+        infoDiv.className = "currency-info";
+        
+        const flagDiv = document.createElement("div");
+        flagDiv.className = `currency-flag flag-${c.toLowerCase().replace('_new', '').replace('_old', '')}`;
+        
+        const countryCode = c === 'EUR' ? 'eu' : 
+                           c === 'SYP_NEW' || c === 'SYP_OLD' ? 'sy' :
+                           c.toLowerCase().substring(0, 2);
+        
+        flagDiv.innerHTML = getFlagEmoji(countryCode);
+        
+        const detailsDiv = document.createElement("div");
+        detailsDiv.className = "currency-details";
+        
+        const codeSpan = document.createElement("div");
+        codeSpan.className = "currency-code";
+        codeSpan.innerHTML = `${c} <span class="currency-symbol">${labels[lang][c].symbol}</span>`;
+        
+        const nameSpan = document.createElement("div");
+        nameSpan.className = "currency-name";
+        nameSpan.textContent = labels[lang][c].name;
+        
+        detailsDiv.appendChild(codeSpan);
+        detailsDiv.appendChild(nameSpan);
+        
+        infoDiv.appendChild(flagDiv);
+        infoDiv.appendChild(detailsDiv);
+        
+        const input = document.createElement("input");
+        input.type = "number";
+        input.step = "any";
+        input.id = c;
+        input.placeholder = "0.00";
+        
+        input.addEventListener("input", () => convert(c));
+        
+        row.appendChild(infoDiv);
+        row.appendChild(input);
+        fields.appendChild(row);
+    });
+}
 
-    const label = document.createElement("label");
-    label.textContent = c;
+function getFlagEmoji(countryCode) {
+    const codePoints = countryCode.toUpperCase()
+        .split('')
+        .map(char => 127397 + char.charCodeAt());
+    return String.fromCodePoint(...codePoints);
+}
 
-    const input = document.createElement("input");
-    input.type = "number";
-    input.step = "any";
-    input.id = c;
-
-    input.addEventListener("input", () => convert(c));
-
-    row.appendChild(label);
-    row.appendChild(input);
-    fields.appendChild(row);
-});
-
-// Conversion
 async function convert(base) {
     if (updating) return;
 
-    const value = parseFloat(document.getElementById(base).value);
-    if (isNaN(value)) return;
+    const val = parseFloat(document.getElementById(base).value);
+    if (isNaN(val)) return;
 
     updating = true;
+    document.body.classList.add("updating");
 
-    const res = await fetch(`https://open.er-api.com/v6/latest/${base}`);
+    // Always fetch USD-based rates
+    const res = await fetch("https://open.er-api.com/v6/latest/USD");
     const data = await res.json();
 
+    const sypNew = data.rates.SYP;   // API = NEW SYP
+    const sypOld = sypNew * 100;     // OLD = NEW × 100
+
+    // Convert input to USD first
+    let usdValue;
+    if (base === "SYP_NEW") usdValue = val / sypNew;
+    else if (base === "SYP_OLD") usdValue = val / sypOld;
+    else usdValue = val / data.rates[base];
+
     currencies.forEach(c => {
-        if (c !== base && data.rates[c]) {
-            document.getElementById(c).value =
-                (value * data.rates[c]).toFixed(4);
-        }
+        if (c === base) return;
+
+        let result;
+        if (c === "SYP_NEW") result = usdValue * sypNew;
+        else if (c === "SYP_OLD") result = usdValue * sypOld;
+        else result = usdValue * data.rates[c];
+
+        document.getElementById(c).value = result.toFixed(4);
     });
 
     updating = false;
+    document.body.classList.remove("updating");
 }
+
+function toggleLang() {
+    lang = lang === "en" ? "ar" : "en";
+    document.getElementById("app").classList.toggle("rtl", lang === "ar");
+    
+    const title = document.getElementById("title");
+    const langBtn = document.querySelector(".lang-text");
+    
+    if (lang === "ar") {
+        title.textContent = "حاسبة العملات";
+        langBtn.textContent = "EN / AR";
+    } else {
+        title.textContent = "Currency Calculator";
+        langBtn.textContent = "AR / EN";
+    }
+    
+    buildFields();
+}
+
+buildFields();
 </script>
 
 </body>
