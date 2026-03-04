@@ -1,48 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
   <meta charset="UTF-8">
-  <title>MD Qs | Home</title>
+  <title>MD Qs · Systems</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2556978997655102"
      crossorigin="anonymous"></script>
-  
   <style>
+    /* ---------- light / dark variables (default = device preference) ---------- */
+    * {
+      transition: background-color 0.2s ease, border-color 0.2s, color 0.1s;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f5f6fa;
+      font-family: 'Arial', sans-serif;
       padding: 20px;
+      margin: 0;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* light mode (default fallback) */
+    :root {
+      --bg-primary: #f5f6fa;
+      --bg-card: #ffffff;
+      --bg-sub: #f1f2f6;
+      --text-primary: #2f3542;
+      --text-secondary: #2f3542;
+      --link-hover: #3742fa;
+      --shadow: rgba(0,0,0,0.1);
+      --border-light: #e0e4e8;
+      --footer-bg: #e9ecf3;
+    }
+
+    /* detect device dark mode */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-primary: #1e2128;
+        --bg-card: #2b2f3a;
+        --bg-sub: #363b48;
+        --text-primary: #eaeef2;
+        --text-secondary: #cbd5e0;
+        --link-hover: #7f8cff;
+        --shadow: rgba(0,0,0,0.4);
+        --border-light: #3f4555;
+        --footer-bg: #232731;
+      }
+    }
+
+    /* manual dark class (overrides media) */
+    body.dark-theme {
+      --bg-primary: #1e2128;
+      --bg-card: #2b2f3a;
+      --bg-sub: #363b48;
+      --text-primary: #eaeef2;
+      --text-secondary: #cbd5e0;
+      --link-hover: #7f8cff;
+      --shadow: rgba(0,0,0,0.4);
+      --border-light: #3f4555;
+      --footer-bg: #232731;
+    }
+
+    body.light-theme {
+      --bg-primary: #f5f6fa;
+      --bg-card: #ffffff;
+      --bg-sub: #f1f2f6;
+      --text-primary: #2f3542;
+      --text-secondary: #2f3542;
+      --link-hover: #3742fa;
+      --shadow: rgba(0,0,0,0.1);
+      --border-light: #e0e4e8;
+      --footer-bg: #e9ecf3;
+    }
+
+    /* containers */
+    .page-wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
     }
 
     h1 {
       text-align: center;
       margin-bottom: 30px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      font-size: 2rem;
+      color: var(--text-primary);
     }
 
+    /* theme toggle */
+    .theme-toggle {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 20px;
+      gap: 10px;
+    }
+
+    .theme-btn {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      box-shadow: 0 2px 4px var(--shadow);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .theme-btn:hover {
+      background: var(--bg-sub);
+    }
+
+    .badge-device {
+      background: var(--bg-sub);
+      padding: 4px 12px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    /* menu details */
     .menu {
-      max-width: 600px;
+      max-width: 700px;
       margin: auto;
     }
 
     details {
-      background: #ffffff;
-      margin-bottom: 10px;
-      border-radius: 8px;
-      padding: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      background: var(--bg-card);
+      margin-bottom: 12px;
+      border-radius: 12px;
+      padding: 8px 12px;
+      box-shadow: 0 4px 10px var(--shadow);
+      border: 1px solid var(--border-light);
     }
 
     summary {
-      font-weight: bold;
+      font-weight: 600;
       cursor: pointer;
-      padding: 5px;
+      padding: 6px 4px;
+      font-size: 1.1rem;
+      color: var(--text-primary);
     }
 
     details details {
-      margin-left: 20px;
-      margin-top: 8px;
-      background: #f1f2f6;
+      margin-left: 18px;
+      margin-top: 10px;
+      background: var(--bg-sub);
+      border: none;
+      box-shadow: none;
+      padding: 6px 10px;
     }
 
     ul {
@@ -51,212 +167,436 @@
     }
 
     li {
-      margin: 6px 0;
+      margin: 8px 0;
     }
 
     a {
       text-decoration: none;
-      color: #2f3542;
+      color: var(--text-secondary);
+      border-bottom: 1px dotted transparent;
+      transition: 0.15s;
     }
 
     a:hover {
-      color: #3742fa;
+      color: var(--link-hover);
+      border-bottom: 1px dotted var(--link-hover);
+    }
+
+    /* footer */
+    .site-footer {
+      margin-top: 50px;
+      background: var(--footer-bg);
+      border-radius: 24px 24px 0 0;
+      padding: 28px 20px 20px;
+      box-shadow: 0 -6px 15px var(--shadow);
+    }
+
+    .footer-container {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .footer-container p {
+      margin: 0 0 15px 0;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px 40px;
+      margin-bottom: 20px;
+    }
+
+    .link-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 150px;
+    }
+
+    .link-group strong {
+      color: var(--text-primary);
+      font-size: 1rem;
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 4px;
+    }
+
+    .link-group a {
+      margin: 5px 0;
+      display: inline-block;
+      font-size: 0.95rem;
+    }
+
+    /* special for medschoolbro (referral badge) */
+    .ref-link {
+      background: rgba(55, 66, 250, 0.1);
+      padding: 3px 8px;
+      border-radius: 30px;
+      font-weight: 500;
+    }
+
+    /* tiny responsive */
+    @media (max-width: 500px) {
+      .footer-links {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .link-group {
+        width: 100%;
+      }
     }
   </style>
 </head>
 <body>
-
-<h1>MD Qs: Systems </h1>
-
-<div class="menu">
-
-  <!-- Nervous System -->
-  <details open>
-    <summary>Nervous System</summary>
-
-    <!-- Anatomy -->
-    <details>
-      <summary>Anatomy & Histology & Embryology (19)</summary>
-      <ul>
-        <!-- You can later replace # with real links -->
-        <li><a href="NS/NS-An1.html">1# Introduction to Neuroanatomy</a></li>
-        <li><a href="NS/NS-An2.html">2# Meninges, Ventricles & CSF</a></li>
-        <li><a href="NS/NS-An3.html">3# Cerebrum</a></li>
-        <li><a href="NS/NS-An4.html">4# Diencephalon</a></li>
-        <li><a href="NS/NS-An5.html">5# Blood SUpply of the CNS</a></li>
-        <li><a href="NS/NS-An6.html">6# Brainstem</a></li>
-        <li><a href="NS/NS-An7.html">7# Ascending Sensory Pathway</a></li>
-        <li><a href="NS/NS-An8.html">8# Motor Pathway</a></li>
-        <li><a href="NS/NS-An9.html">9# Basal (Nuclei) Ganglia</a></li>
-        <li><a href="NS/NS-An10.html">10# Cerebellum</a></li>
-        <li><a href="NS/NS-AnCN.html">11&12# Cranial Nerves</a></li>
-        <li><a href="NS/NS-An13.html">13# Development of the CNS</a></li>
-        <li><a href="NS/NS-An14.html">14# Eye & Visual Pathway</a></li>
-        <li><a href="NS/NS-An15.html">15# Ear & Auditory Pathway</a></li>
-        <li><a href="NS/NS-An16.html">16# Cervical & Brachial Plexus</a></li>
-        <li><a href="NS/NS-An17.html">17# Lumbosacral Plexus</a></li>
-        <li><a href="NS/NS-An18.html">18# Autonomic Nervous System</a></li>
-        <li><a href="NS/NS-An19.html">19# Development of Head, Neck, Eye & Ear</a></li>
-      </ul>
-    </details>
-
-    <!-- Physiology -->
-    <details>
-      <summary>Physiology (11)</summary>
-      <ul>
-        <li><a href="NS/NS-Phys1.html">1# Pain Sensation</a></li>
-        <li><a href="NS/NS-Phys2.html">2# Regulation of Cerebral Blood Flow</a></li>
-        <li><a href="NS/NS-Phys3.html">3# Learning & Memory</a></li>
-        <li><a href="NS/NS-Phys4.html">4# Control of Movements & Posture</a></li>
-        <li><a href="NS/NS-Phys5.html">5# Arousal Mechanisms, Consiousness, & Sleep</a></li>
-        <li><a href="NS/NS-Phys6.html">6# Eye & Retina</a></li>
-        <li><a href="NS/NS-Phys7.html">7# Neurophysiology of Vision</a></li>
-        <li><a href="NS/NS-Phys8.html">8# Hearing</a></li>
-        <li><a href="NS/NS-Phys9.html">9# Equilibrium</a></li>
-        <li><a href="NS/NS-Phys10.html">10# Peripherical Nervous System</a></li>
-        <li><a href="NS/NS-Phys11.html">11# Autonomic Nervous System</a></li>
-      </ul>
-    </details>
-
-    <!-- Biochemistry (1 lecture → no dropdown) -->
-    <ul>
-      <li>
-        <a href="NS/NS-Biochem.html">Biochemistry (1)</a>
-      </li>
-    </ul>
-
-    <!-- Pharmacology -->
-    <details>
-      <summary>Pharmacology (10)</summary>
-      <ul>
-        <li><a href="NS/NS-Phar1.html">1# General Anesthesia</a></li>
-        <li><a href="NS/NS-Phar2.html">2# Local Anesthesia</a></li>
-        <li><a href="NS/NS-Phar3.html">3# Sedatives & Hypnotics</a></li>
-        <li><a href="NS/NS-Phar4.html">4# Antidepressents</a></li>
-        <li><a href="NS/NS-Phar5.html">5# Antiepileptics</a></li>
-        <li><a href="NS/NS-Phar6.html">6# Cholinergic Ag & Antag</a></li>
-        <li><a href="NS/NS-Phar7.html">7# Adrenergic Ag & Antag</a></li>
-        <li><a href="NS/NS-Phar8.html">8# Antipsychotics</a></li>
-        <li><a href="NS/NS-Phar9.html">9# Opioids</a></li>
-        <li><a href="NS/NS-Phar10.html">10# Drugs of Abuse</a></li>
-      </ul>
-    </details>
-
-    <!-- Pathology -->
-    <details>
-      <summary>Pathology (6)</summary>
-      <ul>
-        <li><a href="NS/NS-Path1.html">1# CNS Inflammatory Conditions</a></li>
-        <li><a href="NS/NS-Path2.html">2# Vascular Diseases of CNS I</a></li>
-        <li><a href="NS/NS-Path3.html">3# Vascular Diseases of CNS II</a></li>
-        <li><a href="NS/NS-Path4.html">4# Degenerative Diseases</a></li>
-        <li><a href="NS/NS-Path5.html">5# Tumors of NS</a></li>
-        <li><a href="NS/NS-Path6.html">6# Demyelinating Diseases</a></li>
-        <!-- ... -->
-      </ul>
-    </details>
-
-    <!-- Microbiology -->
-    <details>
-      <summary>Microbiology (5)</summary>
-      <ul>
-        <li><a href="NS/NS-Mi1.html">1# Microbiology of Meningitis</a></li>
-        <li><a href="NS/NS-Mi2.html">2# Bacterial Infections of CNS</a></li>
-        <li><a href="NS/NS-Mi3.html">3# Enteroviruses</a></li>
-        <li><a href="NS/NS-Mi4.html">4# Rabies & Arboviruses</a></li>
-        <li><a href="NS/NS-Mi5.html">5# Ticks & Prions</a></li>
-      </ul>
-    </details>
-
-       <!-- Medicine -->
-    <details>
-      <summary>FINAL</summary>
-      <ul>
-        <!-- You can later replace # with real links -->
-        <li><a href="NS/NS-F-M1.html">Medicine 1</a></li>
-        <li><a href="NS/NS-F-M2.html">Medicine 2</a></li>
-        <li><a href="NS/NS-F-M3.html">Medicine 3</a></li>
-        <li><a href="NS/NS-F-M4.html">Medicine 4</a></li>
-        <li><a href="NS/NS-F-M5.html">Medicine 5</a></li>
-        <li><a href="NS/NS-F-M6.html">Medicine 6</a></li>
-        <li><a href="NS/NS-F-Phy.html">Physiology Lab</a></li>
-        <li><a href="NS/NS-F-Pha.html">Pharmacology Lab</a></li>
-    </details>
-    
-  </details>
-
-   
-
-  <!-- Other Systems (structure ready, lectures later) -->
-  <details>
-    <summary>Cardiovascular System</summary>
-    <ul>
-      <li>Anatomy & Histology & Embryology</li>
-      <li>Physiology</li>
-      <li>Biochemistry</li>
-      <li>Pharmacology</li>
-      <li>Pathology</li>
-      <li>Microbiology</li>
-    </ul>
-  </details>
-
-  <details>
-    <summary>Gastrointestinal System</summary>
-    <ul>
-      <li>Anatomy & Histology & Embryology</li>
-      <li>Physiology</li>
-      <li>Biochemistry</li>
-      <li>Pharmacology</li>
-      <li>Pathology</li>
-      <li>Microbiology</li>
-    </ul>
-  </details>
-
-  <details>
-    <summary>Endocrine System</summary>
-    <ul>
-      <li>Anatomy & Histology & Embryology</li>
-      <li>Physiology</li>
-      <li>Biochemistry</li>
-      <li>Pharmacology</li>
-      <li>Pathology</li>
-      <li>Microbiology</li>
-    </ul>
-  </details>
-
- <!-- PYQs -->
-  <details open>
-    <summary>MID PYQs</summary>
-
-    <!-- Nervous System -->
-    <ul>
-      <li><a href="NS/PYQs-NSC.html">🧠 Nervous System (Central) </a></li>
-      <li><a href="NS/PYQs-NSP.html">🧠 Nervous System (Peripheral) </a></li>
-      <li><a href="GI/PYQs-GIT.html">🍽️ Gastrointestinal System </a></li>
-      <li><a href="CVS/PYQs-CVS.html">🫀 Cardiovascular System </a></li>
-      <li><a href="ENDO/PYQs-ENDO.html">🧠 Endocrine System </a></li>
-    </ul>
-
-</div>
-
-
-
-
-<footer class="site-footer">
-    <div class="footer-container">
-        <p>© 2025 MD Qs. All rights reserved.</p>
-
-        <nav class="footer-links">
-            <a href="drs-evaluation.html">DRs Evaluation Shortcut</a><br>
-            <a href="currency-conv.html">Currency Converter</a><br>
-            <a href="IEV3.html">Image Editor</a><br>
-        </nav>
+  <div class="page-wrapper">
+    <!-- theme toggle + device info -->
+    <div class="theme-toggle">
+      <span class="badge-device" id="deviceModeLabel">🌓 device</span>
+      <button class="theme-btn" id="themeToggleBtn" aria-label="Switch dark/light mode">
+        <span>🌙</span> <span>switch theme</span>
+      </button>
     </div>
-</footer>
 
+    <h1>🩺 MD Qs · Systems</h1>
+
+    <div class="menu">
+      <!-- Nervous System -->
+      <details open>
+        <summary>🧠 Nervous System</summary>
+
+        <!-- Anatomy & Histology & Embryology -->
+        <details>
+          <summary>🧠 Anatomy & Histology & Embryology (19)</summary>
+          <ul>
+            <li><a href="NS/NS-An1.html">1# Introduction to Neuroanatomy</a></li>
+            <li><a href="NS/NS-An2.html">2# Meninges, Ventricles & CSF</a></li>
+            <li><a href="NS/NS-An3.html">3# Cerebrum</a></li>
+            <li><a href="NS/NS-An4.html">4# Diencephalon</a></li>
+            <li><a href="NS/NS-An5.html">5# Blood Supply of the CNS</a></li>
+            <li><a href="NS/NS-An6.html">6# Brainstem</a></li>
+            <li><a href="NS/NS-An7.html">7# Ascending Sensory Pathway</a></li>
+            <li><a href="NS/NS-An8.html">8# Motor Pathway</a></li>
+            <li><a href="NS/NS-An9.html">9# Basal (Nuclei) Ganglia</a></li>
+            <li><a href="NS/NS-An10.html">10# Cerebellum</a></li>
+            <li><a href="NS/NS-AnCN.html">11&12# Cranial Nerves</a></li>
+            <li><a href="NS/NS-An13.html">13# Development of the CNS</a></li>
+            <li><a href="NS/NS-An14.html">14# Eye & Visual Pathway</a></li>
+            <li><a href="NS/NS-An15.html">15# Ear & Auditory Pathway</a></li>
+            <li><a href="NS/NS-An16.html">16# Cervical & Brachial Plexus</a></li>
+            <li><a href="NS/NS-An17.html">17# Lumbosacral Plexus</a></li>
+            <li><a href="NS/NS-An18.html">18# Autonomic Nervous System</a></li>
+            <li><a href="NS/NS-An19.html">19# Development of Head, Neck, Eye & Ear</a></li>
+          </ul>
+        </details>
+
+        <!-- Physiology -->
+        <details>
+          <summary>⚡ Physiology (11)</summary>
+          <ul>
+            <li><a href="NS/NS-Phys1.html">1# Pain Sensation</a></li>
+            <li><a href="NS/NS-Phys2.html">2# Regulation of Cerebral Blood Flow</a></li>
+            <li><a href="NS/NS-Phys3.html">3# Learning & Memory</a></li>
+            <li><a href="NS/NS-Phys4.html">4# Control of Movements & Posture</a></li>
+            <li><a href="NS/NS-Phys5.html">5# Arousal Mechanisms, Consciousness, & Sleep</a></li>
+            <li><a href="NS/NS-Phys6.html">6# Eye & Retina</a></li>
+            <li><a href="NS/NS-Phys7.html">7# Neurophysiology of Vision</a></li>
+            <li><a href="NS/NS-Phys8.html">8# Hearing</a></li>
+            <li><a href="NS/NS-Phys9.html">9# Equilibrium</a></li>
+            <li><a href="NS/NS-Phys10.html">10# Peripherical Nervous System</a></li>
+            <li><a href="NS/NS-Phys11.html">11# Autonomic Nervous System</a></li>
+          </ul>
+        </details>
+
+        <!-- Biochemistry (single) -->
+        <ul>
+          <li><a href="NS/NS-Biochem.html">🧪 Biochemistry (1)</a></li>
+        </ul>
+
+        <!-- Pharmacology -->
+        <details>
+          <summary>💊 Pharmacology (10)</summary>
+          <ul>
+            <li><a href="NS/NS-Phar1.html">1# General Anesthesia</a></li>
+            <li><a href="NS/NS-Phar2.html">2# Local Anesthesia</a></li>
+            <li><a href="NS/NS-Phar3.html">3# Sedatives & Hypnotics</a></li>
+            <li><a href="NS/NS-Phar4.html">4# Antidepressants</a></li>
+            <li><a href="NS/NS-Phar5.html">5# Antiepileptics</a></li>
+            <li><a href="NS/NS-Phar6.html">6# Cholinergic Ag & Antag</a></li>
+            <li><a href="NS/NS-Phar7.html">7# Adrenergic Ag & Antag</a></li>
+            <li><a href="NS/NS-Phar8.html">8# Antipsychotics</a></li>
+            <li><a href="NS/NS-Phar9.html">9# Opioids</a></li>
+            <li><a href="NS/NS-Phar10.html">10# Drugs of Abuse</a></li>
+          </ul>
+        </details>
+
+        <!-- Pathology -->
+        <details>
+          <summary>🔬 Pathology (6)</summary>
+          <ul>
+            <li><a href="NS/NS-Path1.html">1# CNS Inflammatory Conditions</a></li>
+            <li><a href="NS/NS-Path2.html">2# Vascular Diseases of CNS I</a></li>
+            <li><a href="NS/NS-Path3.html">3# Vascular Diseases of CNS II</a></li>
+            <li><a href="NS/NS-Path4.html">4# Degenerative Diseases</a></li>
+            <li><a href="NS/NS-Path5.html">5# Tumors of NS</a></li>
+            <li><a href="NS/NS-Path6.html">6# Demyelinating Diseases</a></li>
+          </ul>
+        </details>
+
+        <!-- Microbiology -->
+        <details>
+          <summary>🦠 Microbiology (5)</summary>
+          <ul>
+            <li><a href="NS/NS-Mi1.html">1# Microbiology of Meningitis</a></li>
+            <li><a href="NS/NS-Mi2.html">2# Bacterial Infections of CNS</a></li>
+            <li><a href="NS/NS-Mi3.html">3# Enteroviruses</a></li>
+            <li><a href="NS/NS-Mi4.html">4# Rabies & Arboviruses</a></li>
+            <li><a href="NS/NS-Mi5.html">5# Ticks & Prions</a></li>
+          </ul>
+        </details>
+
+        <!-- FINAL -->
+        <details>
+          <summary>📋 FINAL</summary>
+          <ul>
+            <li><a href="NS/NS-F-M1.html">Medicine 1</a></li>
+            <li><a href="NS/NS-F-M2.html">Medicine 2</a></li>
+            <li><a href="NS/NS-F-M3.html">Medicine 3</a></li>
+            <li><a href="NS/NS-F-M4.html">Medicine 4</a></li>
+            <li><a href="NS/NS-F-M5.html">Medicine 5</a></li>
+            <li><a href="NS/NS-F-M6.html">Medicine 6</a></li>
+            <li><a href="NS/NS-F-Phy.html">Physiology Lab</a></li>
+            <li><a href="NS/NS-F-Pha.html">Pharmacology Lab</a></li>
+          </ul>
+        </details>
+      </details>
+
+      <!-- GIS -->
+      <!-- Gastrointestinal System (updated with full lectures, saved in GIS folder) -->
+      <details>
+        <summary>🍽️ Gastrointestinal System</summary>
+
+        <!-- ANATOMY -->
+        <details>
+          <summary>👄 Anatomy & Histology & Embryology (6)</summary>
+          <ul>
+            <li><a href="GIS/GIS-An1.html">1# Anatomy of the GI tract</a></li>
+            <li><a href="GIS/GIS-An2.html">2# Anatomy of accessory digestive organs</a></li>
+            <li><a href="GIS/GIS-An3.html">3# Histology of digestive accessory organs</a></li>
+            <li><a href="GIS/GIS-An4.html">4# Peritoneum, anterolateral abdominal wall & Inguinal region</a></li>
+            <li><a href="GIS/GIS-An5.html">5# Histology of GI tract organs</a></li>
+            <li><a href="GIS/GIS-An6.html">6# Embryology of the digestive system</a></li>
+          </ul>
+        </details>
+
+        <!-- PHYSIOLOGY -->
+        <details>
+          <summary>⚡ Physiology (4)</summary>
+          <ul>
+            <li><a href="GIS/GIS-Phys1.html">1# Gastric & intestinal secretions</a></li>
+            <li><a href="GIS/GIS-Phys2.html">2# Gastric & intestinal motility</a></li>
+            <li><a href="GIS/GIS-Phys3.html">3# Pancreatic, liver & biliary secretion</a></li>
+            <li><a href="GIS/GIS-Phys4.html">4# Digestion & absorption in the GI tract</a></li>
+          </ul>
+        </details>
+
+        <!-- PHARMACOLOGY -->
+        <details>
+          <summary>💊 Pharmacology (3)</summary>
+          <ul>
+            <li><a href="GIS/GIS-Phar1.html">1# Drugs used in peptic ulcer disease</a></li>
+            <li><a href="GIS/GIS-Phar2.html">2# Antiemetics & drugs affecting gastric motility</a></li>
+            <li><a href="GIS/GIS-Phar3.html">3# Management of inflammatory bowel diseases</a></li>
+          </ul>
+        </details>
+
+        <!-- PATHOLOGY -->
+        <details>
+          <summary>🔬 Pathology (9)</summary>
+          <ul>
+            <li><a href="GIS/GIS-Path1.html">1# Diseases of oral cavity & esophagus</a></li>
+            <li><a href="GIS/GIS-Path2.html">2# Diseases of the stomach (gastritis & peptic ulcer)</a></li>
+            <li><a href="GIS/GIS-Path3.html">3# GI tumors I</a></li>
+            <li><a href="GIS/GIS-Path4.html">4# GI tumors II</a></li>
+            <li><a href="GIS/GIS-Path5.html">5# Diseases of the intestine I (malabsorption, ischemic bowel, obstruction)</a></li>
+            <li><a href="GIS/GIS-Path6.html">6# Diseases of the intestine II (IBD)</a></li>
+            <li><a href="GIS/GIS-Path7.html">7# Introduction to liver diseases & cholestasis</a></li>
+            <li><a href="GIS/GIS-Path8.html">8# Pathology of the biliary tract</a></li>
+            <li><a href="GIS/GIS-Path9.html">9# Liver tumors & diseases of the exocrine pancreas</a></li>
+          </ul>
+        </details>
+
+        <!-- MICROBIOLOGY -->
+        <details>
+          <summary>🦠 Microbiology (5)</summary>
+          <ul>
+            <li><a href="GIS/GIS-Mi1.html">1# Bacterial infections of the GI tract I</a></li>
+            <li><a href="GIS/GIS-Mi2.html">2# Bacterial infections of the GI tract II</a></li>
+            <li><a href="GIS/GIS-Mi3.html">3# Parasitic infections of the GI tract I</a></li>
+            <li><a href="GIS/GIS-Mi4.html">4# Parasitic infections of the GI tract II</a></li>
+            <li><a href="GIS/GIS-Mi5.html">5# Viral infections of the GI tract</a></li>
+          </ul>
+        </details>
+
+        <!-- BIOCHEMISTRY (single) -->
+        <ul>
+          <li><a href="GIS/GIS-Biochem.html">🧪 Biochemistry: Liver function tests & detoxification (1)</a></li>
+        </ul>
+
+        <!-- PUBLIC HEALTH (single) -->
+        <ul>
+          <li><a href="GIS/GIS-PH.html">📊 Public Health: Epidemiology & prevention of colorectal cancers (1)</a></li>
+        </ul>
+      </details>
+      
+      <details>
+        <summary>🫀 Cardiovascular System</summary>
+        <ul>
+          <li>Anatomy & Histology & Embryology</li>
+          <li>Physiology</li>
+          <li>Biochemistry</li>
+          <li>Pharmacology</li>
+          <li>Pathology</li>
+          <li>Microbiology</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>⚕️ Endocrine System</summary>
+        <ul>
+          <li>Anatomy & Histology & Embryology</li>
+          <li>Physiology</li>
+          <li>Biochemistry</li>
+          <li>Pharmacology</li>
+          <li>Pathology</li>
+          <li>Microbiology</li>
+        </ul>
+      </details>
+
+      <!-- MID PYQs -->
+      <details open>
+        <summary>📝 MID PYQs</summary>
+        <ul>
+          <li><a href="NS/PYQs-NSC.html">🧠 Nervous System (Central)</a></li>
+          <li><a href="NS/PYQs-NSP.html">🧠 Nervous System (Peripheral)</a></li>
+          <li><a href="GI/PYQs-GIT.html">🍽️ Gastrointestinal System</a></li>
+          <li><a href="CVS/PYQs-CVS.html">🫀 Cardiovascular System</a></li>
+          <li><a href="ENDO/PYQs-ENDO.html">🧠 Endocrine System</a></li>
+        </ul>
+      </details>
+    </div> <!-- end menu -->
+
+    <!-- spacer -->
+    <div style="height: 20px;"></div>
+  </div> <!-- end page-wrapper -->
+
+  <!-- FOOTER (enhanced with grouped links) -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <p>© 2025 MD Qs. All rights reserved.</p>
+
+      <!-- grouped footer links as requested -->
+      <div class="footer-links">
+        <!-- group 1: fun & useful -->
+        <div class="link-group">
+          <strong>🎲 Extra</strong>
+          <a href="https://doctordle.org" target="_blank" rel="noopener">🧩 Doctors WORDLE</a>
+          <a href="drs-evaluation.html">📋 DRs Evaluation Shortcut</a>
+          <a href="currency-conv.html">💱 Currency Converter</a>
+          <a href="IEV3.html">🖼️ Image Editor</a>
+        </div>
+
+        <!-- group 2: about / owner -->
+        <div class="link-group">
+          <strong>👤 Owner</strong>
+          <a href="https://drm7.me/MAHT" target="_blank" rel="noopener">🔗 Social Links</a>
+        </div>
+
+        <!-- group 3: referral / medschoolbro -->
+        <div class="link-group">
+          <strong>📘 USMLE prep</strong>
+          <a href="https://www.medschoolbro.com?snowball=MOHAMED52041" target="_blank" rel="noopener" class="ref-link">
+            📚 MedSchoolBro USMLE Rapid Reviews
+          </a>
+        </div>
+
+        <!-- group 4: life skills / extra curricular -->
+        <div class="link-group">
+          <strong>University Compulsory Subjects</strong>
+          <a href="https://t.me/Life_Skills_MAHT" target="_blank" rel="noopener">Life Skills | مهارات حياتية</a>
+        </div>
+      </div>
+
+      <!-- optional small note (already included above) -->
+    </div>
+  </footer>
+
+  <!-- dark mode logic: default = device, toggle switches between light/dark/manual -->
+  <script>
+    (function() {
+      // get root element
+      const root = document.documentElement;
+      const body = document.body;
+      const toggleBtn = document.getElementById('themeToggleBtn');
+      const deviceSpan = document.getElementById('deviceModeLabel');
+
+      // check localStorage for manual theme
+      let savedTheme = localStorage.getItem('mdQsTheme'); // 'dark', 'light', or null (device)
+      
+      // function to set theme based on saved value
+      function applyTheme(theme) {
+        // remove both classes first
+        body.classList.remove('dark-theme', 'light-theme');
+        
+        if (theme === 'dark') {
+          body.classList.add('dark-theme');
+          deviceSpan.innerText = '🌙 manual dark';
+        } else if (theme === 'light') {
+          body.classList.add('light-theme');
+          deviceSpan.innerText = '☀️ manual light';
+        } else {
+          // device default: remove classes, rely on media query
+          body.classList.remove('dark-theme', 'light-theme');
+          // check actual device preference for display only
+          const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          deviceSpan.innerText = isDark ? '🌓 device (dark)' : '🌓 device (light)';
+        }
+      }
+
+      // initial apply
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        applyTheme(savedTheme);
+      } else {
+        applyTheme('device'); // default
+      }
+
+      // toggle function: cycles device → light → dark → device ...
+      function cycleTheme() {
+        let current = localStorage.getItem('mdQsTheme') || 'device';
+        let next;
+        if (current === 'device') next = 'light';
+        else if (current === 'light') next = 'dark';
+        else next = 'device'; // from dark to device
+
+        localStorage.setItem('mdQsTheme', next);
+        applyTheme(next);
+      }
+
+      toggleBtn.addEventListener('click', cycleTheme);
+
+      // optional: listen for device changes if no manual override
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        if (!localStorage.getItem('mdQsTheme')) { // device mode
+          applyTheme('device');
+        }
+      });
+    })();
+  </script>
+
+  <!-- fix for any missing link behaviour: keep original links untouched -->
 </body>
 </html>
-
-
-    <!-- #replace the "#" with hyperlink (nervous-system/anatomy/lec1.html) -->
-
